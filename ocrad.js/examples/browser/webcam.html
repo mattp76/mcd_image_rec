@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Webcam Ocrad.js Example</title>
+		<style>
+			body {
+				background: whiteSmoke;
+				font-family: sans-serif;
+				margin: 30px;
+			}
+			#transcription, #video {
+				background: white;
+				display: inline-block;
+				border: 1px solid #ddd;
+				margin: 10px;
+			}
+			#video {
+				flex-grow: 1;
+				width: 500px;
+				background: black;
+			}
+			#text {
+				font-size: 25px;
+				text-align: center;
+				flex-grow: 1;
+				padding: 30px;
+			}
+			#transcription {
+				width: 300px;
+				flex-grow: 1;
+				display: flex;
+				flex-direction: column;
+			}
+			#controls {
+				padding: 20px;
+				color: #222;
+				border-top: 1px solid #ddd;
+				background: whiteSmoke;
+			}
+			#main {
+				display: flex;
+			}
+			#transcription.recognizing {
+				color: gray;
+			}
+			#transcription.done {
+				color: black;
+			}
+			
+			
+			.container {
+			 margin-top:10px;
+			}
+			
+			.img-responsive {
+			    -webkit-transition: opacity 2s ease-in;
+			-moz-transition: opacity 2s ease-in;
+			-o-transition: opacity 2s ease-in;
+			-ms-transition: opacity 2s ease-in;
+			transition: opacity 2s ease-in;
+			  width:500px;
+			}
+			
+			.animate-show-hide.ng-hide {
+			  opacity: 0;
+			}
+
+			.animate-show-hide.ng-hide-add,
+			.animate-show-hide.ng-hide-remove {
+			  transition: all linear 0.5s;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<h1>Webcam Ocrad.js Example</h1>
+
+		<script src="../../ocrad.js"></script>
+		<script src="../../../GumWrapper/GumWrapper.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+		
+		<script>
+	
+		
+			function recognize_snapshot(){
+				document.getElementById('text').innerText = "(Recognizing...)"
+				document.getElementById('transcription').className = "recognizing"
+				OCRAD(document.getElementById("video"), {
+					invert: document.getElementById('whiteText').checked // set this for white on black text
+				}, function(text){
+					document.getElementById('transcription').className = "done"
+					document.getElementById('text').innerText = text || "(empty)";
+				})
+			}
+
+			function acquiredVideo(stream){
+				var video = document.getElementById('video')
+				if ('mozSrcObject' in video) { video.mozSrcObject = stream;
+				} else if (window.webkitURL) { video.src = window.webkitURL.createObjectURL(stream);
+				} else { video.src = stream; }
+				video.play();
+
+				document.getElementById('blackText').checked = true;
+			}
+			window.onload = function(){
+				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+				window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+				
+				if(navigator.getUserMedia) navigator.getUserMedia({ video: true }, acquiredVideo, function(){})
+			}
+			
+			
+			console.clear();
+			angular.module('fileUpload', [])
+			  //.controller("upload", ['$scope', '$http', 'uploadService', function($scope, $http, uploadService) {
+			  .controller("upload", ['$scope', '$http', function($scope, $http) {
+				$scope.$watch('file', function(newfile, oldfile) {
+				  if(angular.equals(newfile, oldfile) ){
+					return;
+				  }
+
+				  //uploadService.upload(newfile).then(function(res){
+					// DO SOMETHING WITH THE RESULT!
+					//console.log("result", res);
+				  //})
+				});
+
+			  }])
+			  //.service("uploadService", function($http, $q) {
+
+				//return ({
+				  //upload: upload
+				//});
+
+				//function upload(file) {
+				  //var upl = $http({
+					//method: 'POST',
+					//url: 'http://jsonplaceholder.typicode.com/posts', // /api/upload
+					//headers: {
+					  //'Content-Type': 'multipart/form-data'
+					//},
+					//data: {
+					  //upload: file
+					//},
+					//transformRequest: function(data, headersGetter) {
+					  //var formData = new FormData();
+					  //angular.forEach(data, function(value, key) {
+						//formData.append(key, value);
+					  //});
+
+					  //var headers = headersGetter();
+					  //delete headers['Content-Type'];
+
+					  //return formData;
+					//}
+				  //});
+				  //return upl.then(handleSuccess, handleError);
+
+				//} // End upload function
+
+				// ---
+				// PRIVATE METHODS.
+				// ---
+			  
+				//function handleError(response, data) {
+				  //if (!angular.isObject(response.data) ||!response.data.message) {
+					//return ($q.reject("An unknown error occurred."));
+				  //}
+
+				 // return ($q.reject(response.data.message));
+				//}
+
+				//function handleSuccess(response) {
+				  //return (response);
+				//}
+
+			  //})
+			  .directive("fileinput", [function() {
+				return {
+				  scope: {
+					fileinput: "=",
+					filepreview: "="
+				  },
+				  link: function(scope, element, attributes) {
+					element.bind("change", function(changeEvent) {
+					  scope.fileinput = changeEvent.target.files[0];
+					  var reader = new FileReader();
+					  reader.onload = function(loadEvent) {
+						scope.$apply(function() {
+
+						  scope.filepreview = loadEvent.target.result;
+						});
+					  }
+					  reader.readAsDataURL(scope.fileinput);
+					});
+				  }
+				}
+			  }]);
+	
+	
+		</script>
+
+		<div id="main">
+			<video id="video" src="img/StarWars.mp4" mute autoplay onclick="recognize_snapshot()"></video>
+			
+			<div ng-app="fileUpload" class="container">
+			  <div class="row" ng-controller="upload">
+			  <img ng-src="{{filepreview}}" class="img-responsive" ng-show="filepreview"/>
+				<div class="col-md-6">
+					<input type="file" fileinput="file" filepreview="filepreview"/>
+				</div>
+			  </div>
+			</div>
+			
+		    <div id="transcription">
+				<div id="text">
+					Click on the video to recognize a still capture
+				</div>
+				<div id="controls">
+					<input type="radio" name="textColor" id="whiteText" value="white" checked onchange="recognize_snapshot()">
+					<label for="whiteText"><b>White Text</b> on Dark Background</label><br>
+					<input type="radio" name="textColor" id="blackText" value="black" onchange="recognize_snapshot()">
+					<label for="blackText"><b>Black Text</b> on Light Background</label>
+				</div>
+			</div>
+		</div>
+
+
+
+	</body>	
+</html>
+
+
