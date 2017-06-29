@@ -92,6 +92,15 @@
 					document.getElementById('text').innerText = text || "(empty)";
 				})
 			}
+			
+			function recognize_image(){
+				document.getElementById('text').innerText = "(Recognizing...)"
+
+				OCRAD(document.getElementById("pic"), function(text){
+					document.getElementById('transcription').className = "done"
+					document.getElementById('text').innerText = text;
+				})
+			}
 
 			function acquiredVideo(stream){
 				var video = document.getElementById('video')
@@ -205,7 +214,7 @@
 			
 			<div ng-app="fileUpload" class="container">
 			  <div class="row" ng-controller="upload">
-			  <img ng-src="{{filepreview}}" class="img-responsive" ng-show="filepreview"/>
+			  <img ng-src="{{filepreview}}" class="img-responsive" id="pic" ng-show="filepreview" onclick="recognize_image()"/>
 				<div class="col-md-6">
 					<input type="file" fileinput="file" filepreview="filepreview"/>
 				</div>
