@@ -1,17 +1,30 @@
 <!doctype html>
 <html>
 	<head>
-		<title>MCD Image Capture</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+	<title>MCD Image Capture</title>
+	
+	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<style>
 			body {
-				background: whiteSmoke;
 				font-family: sans-serif;
-				margin: 30px;
 			}
+			
+			h1 {
+			  font-size:30px !important;
+			  font-weight:700;
+			}
+			
+			
 			
 			.header {
 			  padding:50px;
 			  background-color:#f8f8f8;
+			}
+
+            .header-logo {
+			  float:left;
 			}
 			
 			#transcription, #video {
@@ -34,9 +47,22 @@
 				padding: 30px;
 			}
 			
+			.btn-primary,
+            .img-responsive {
+			 width:90%;
+			}
+			
+			.btn-primary {
+			 margin-top: 30px;
+			}
+			
+			.img-responsive {
+			  border: 1px solid #ddd;
+			}
+			
 			#transcription #text-header {
 			 background-color:#f1f1f1;
-			 font-size:35px;
+			 font-size:30px;
 			 padding:30px;
 			 font-weight:600;
 			}
@@ -74,10 +100,7 @@
 			
 			
 		</style>
-		
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 
-		
 	</head>
 	<body>
 
@@ -264,6 +287,9 @@
 		</script>
 
 		<div class="header text-center">
+		    <div class="header-logo">
+			  <img src="img/logo.png" />
+			</div>
 			<h1>MCD Image Capture</h1>
 		</div>
 	
