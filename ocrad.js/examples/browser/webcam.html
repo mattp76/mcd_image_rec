@@ -31,13 +31,11 @@
 				background: #f8f8f8;
 				display: inline-block;
 				border: 1px solid #ddd;
-				margin: 10px;
-				width:90%;
+				width:100%;
 				margin-top:30px;
 			}
 			#video {
 				flex-grow: 1;
-				width:90%;
 				background: black;
 			}
 			#text {
@@ -49,7 +47,7 @@
 			
 			.btn-primary,
             .img-responsive {
-			 width:90%;
+			 width:100%;
 			}
 			
 			.btn-primary {
@@ -149,7 +147,7 @@
 				var videoEl = angular.element( document.querySelector( '#video-container' ) );
 				var containerEl = angular.element( document.querySelector( '#image-container' ) );
 				
-				if(navigator.getUserMedia) {
+				if(!navigator.getUserMedia) {
 				  navigator.getUserMedia({ video: true }, acquiredVideo, function(){})
 				   console.log('GetUserMedia is supported', navigator.getUserMedia);
 
@@ -297,9 +295,7 @@
 		<div id="main">
 		 <div class="container text-center">
 		 
-		 
-			
-			<div class="container text-center">
+		
 			<div class="row">
 			
 			<div class="col-md-6 video-container" id="video-container">
@@ -336,9 +332,7 @@
 					</div>
 				</div>
 			</div>
-			</div>
-			
-			
+
 			
 		</div>
 	</body>	
