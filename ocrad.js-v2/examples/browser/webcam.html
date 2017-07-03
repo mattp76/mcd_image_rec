@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+	<title>MCD Image Capture</title>
+	
+	
+	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/site.css">
+
+	</head>
+	<body>
+
+		<script type="text/javascript" src="js/ocrad.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/caman.full.js"></script>
+		<script type="text/javascript" src="js/site.js"></script>
+
+
+		<div class="header text-center">
+		    <div class="header-logo">
+			  <img src="img/logo.png" />
+			</div>
+			<h1>MCD Image Capture</h1>
+		</div>
+	
+		
+		<div id="main">
+		 <div class="container text-center">
+			<div class="row">
+			<div class="col-md-6 video-container" id="video-container">
+			   <video id="video" src="img/StarWars.mp4" mute autoplay onclick="recognize_snapshot()" class="video"></video>
+			</div>
+			
+			 <div class="col-md-6 image-container" id="image-container">
+				<div ng-app="fileUpload" class="img-container" id="img-container">
+				  <div class="row" ng-controller="upload">
+				  	<div class="col-md-12">
+						<input class="btn btn-primary" type="file" fileinput="file" filepreview="filepreview"/>
+					</div>
+					<div class="image-results hidden">
+						<div class="col-md-12">
+							<div id="text-header-original">
+							  Original
+							</div>
+							<img ng-src="{{filepreview}}" class="img-responsive" id="pic" ng-show="filepreview" onclick="recognize_image()"/>
+							<div id="text-header-canvas">
+							  Filtered Canvas
+							</div>
+							<canvas id="filter-canvas" class="img-responsive"></canvas>
+						</div>
+					</div>
+				  </div>
+				</div>
+				</div>
+				
+				<div class="col-md-6">
+				   <div class="image-results hidden">
+					<div id="transcription">
+                        <div id="text-header">
+						  Capture results
+						</div>
+						<div id="text">
+							
+						</div>
+						<div id="controls" class="controls">
+							<input type="radio" name="textColor" id="whiteText" value="white" onchange="recognize_snapshot()">
+							<label for="whiteText"><b>White Text</b> on Dark Background</label><br>
+							<input type="radio" name="textColor" id="blackText" value="black" checked onchange="recognize_snapshot()">
+							<label for="blackText"><b>Black Text</b> on Light Background</label>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</body>	
+</html>
+
+
