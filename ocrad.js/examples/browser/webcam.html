@@ -6,284 +6,19 @@
 	<title>MCD Image Capture</title>
 	
 	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		<style>
-			body {
-				font-family: sans-serif;
-			}
-			
-			h1 {
-			  font-size:30px !important;
-			  font-weight:700;
-			}
-			
-			
-			
-			.header {
-			  padding:50px;
-			  background-color:#f8f8f8;
-			}
-
-            .header-logo {
-			  float:left;
-			}
-			
-			#transcription, #video {
-				background: #f8f8f8;
-				display: inline-block;
-				border: 1px solid #ddd;
-				width:100%;
-				margin-top:30px;
-			}
-			#video {
-				flex-grow: 1;
-				background: black;
-			}
-			#text {
-				font-size: 25px;
-				text-align: center;
-				flex-grow: 1;
-				padding: 30px;
-			}
-			
-			.btn-primary,
-            .img-responsive {
-			 width:100%;
-			}
-			
-			.btn-primary {
-			 margin-top: 30px;
-			}
-			
-			.img-responsive {
-			  border: 1px solid #ddd;
-			}
-			
-			#transcription #text-header {
-			 background-color:#f1f1f1;
-			 font-size:30px;
-			 padding:30px;
-			 font-weight:600;
-			}
-
-			#controls {
-				padding: 20px;
-				color: #222;
-				border-top: 1px solid #ddd;
-				background: whiteSmoke;
-			}
-			#main {
-				display: flex;
-			}
-			#transcription.recognizing {
-				color: gray;
-			}
-			#transcription.done {
-				color: black;
-			}
-			
-			
-			.image-container {
-			 margin-top:30px;
-			 display:none;
-			}
-			
-			.controls.hidden, 
-			.video-container.hidden {
-			  display:none !important;
-			}
-			
-			.image-container.visible {
-			  display:block;
-			}
-			
-			
-		</style>
-
+		<link rel="stylesheet" type="text/css" href="css/site.css">
+		
 	</head>
 	<body>
 
-		<script src="../../ocrad.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" src="js/site.js"></script>
+		<script type="text/javascript" src="js/site.filtering.js"></script>
+		<script type="text/javascript" src="js/ocrad.js?v=1500"></script>
 		
-		<script>
-	
 		
-			function recognize_snapshot(){
-				document.getElementById('text').innerText = "Recognizing..."
-				document.getElementById('transcription').className = "recognizing"
-				OCRAD(document.getElementById("video"), {
-					invert: document.getElementById('whiteText').checked // set this for white on black text
-					//invert: true // black text white background
-				}, function(text){
-					document.getElementById('transcription').className = "done"
-					document.getElementById('text').innerText = text || "(empty)";
-				})
-			}
-			
-			function recognize_image(){
-				document.getElementById('text').innerText = "Recognizing..."
-				OCRAD(document.getElementById("pic"), {
-				    invert: false // black text white background
-				}, function(text){
-					document.getElementById('transcription').className = "done"
-					document.getElementById('text').innerText = text;
-				})
-			}
-
-			function acquiredVideo(stream){
-				var video = document.getElementById('video')
-				if ('mozSrcObject' in video) { video.mozSrcObject = stream;
-				} else if (window.webkitURL) { video.src = window.webkitURL.createObjectURL(stream);
-				} else { video.src = stream; }
-				video.play();
-
-				//document.getElementById('blackText').checked = true;
-			}
-			window.onload = function(){
-				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-				window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-				
-				var controlsEl = angular.element( document.querySelector( '#controls' ) );
-				var videoEl = angular.element( document.querySelector( '#video-container' ) );
-				var containerEl = angular.element( document.querySelector( '#image-container' ) );
-				
-				if(!navigator.getUserMedia) {
-				  navigator.getUserMedia({ video: true }, acquiredVideo, function(){})
-				   console.log('GetUserMedia is supported', navigator.getUserMedia);
-
-					controlsEl.removeClass('hidden');
-					videoEl.removeClass('hidden');
-					containerEl.addClass('hidden');
-				   
-				} else {
-					controlsEl.addClass('hidden');
-					videoEl.addClass('hidden');
-					containerEl.addClass('visible');
-				
-				   console.log('GetUserMedia not supported: FALL BACK NEEDED', navigator.getUserMedia);
-				}
-			}
-			
-			
-			console.clear();
-			angular.module('fileUpload', [])
-			  //.controller("upload", ['$scope', '$http', 'uploadService', function($scope, $http, uploadService) {
-			  .controller("upload", ['$scope', '$http', function($scope, $http) {
-				$scope.$watch('file', function(newfile, oldfile) {
-				  if(angular.equals(newfile, oldfile) ){
-					return;
-				  }
-
-				  //uploadService.upload(newfile).then(function(res){
-					// DO SOMETHING WITH THE RESULT!
-					//console.log("result", res);
-				  //})
-				});
-
-			  }])
-			  //.service("uploadService", function($http, $q) {
-
-				//return ({
-				  //upload: upload
-				//});
-
-				//function upload(file) {
-				  //var upl = $http({
-					//method: 'POST',
-					//url: 'http://jsonplaceholder.typicode.com/posts', // /api/upload
-					//headers: {
-					  //'Content-Type': 'multipart/form-data'
-					//},
-					//data: {
-					  //upload: file
-					//},
-					//transformRequest: function(data, headersGetter) {
-					  //var formData = new FormData();
-					  //angular.forEach(data, function(value, key) {
-						//formData.append(key, value);
-					  //});
-
-					  //var headers = headersGetter();
-					  //delete headers['Content-Type'];
-
-					  //return formData;
-					//}
-				  //});
-				  //return upl.then(handleSuccess, handleError);
-
-				//} // End upload function
-
-				// ---
-				// PRIVATE METHODS.
-				// ---
-			  
-				//function handleError(response, data) {
-				  //if (!angular.isObject(response.data) ||!response.data.message) {
-					//return ($q.reject("An unknown error occurred."));
-				  //}
-
-				 // return ($q.reject(response.data.message));
-				//}
-
-				//function handleSuccess(response) {
-				  //return (response);
-				//}
-
-			  //})
-			  .directive("fileinput", [function() {
-				return {
-				  scope: {
-					fileinput: "=",
-					filepreview: "="
-				  },
-				  link: function(scope, element, attributes) {
-					element.bind("change", function(changeEvent) {
-					  scope.fileinput = changeEvent.target.files[0];
-
-					  createDataURL(scope).then(sucessCallback, errorCallback);
-					});
-				  }
-				}
-			  }]);
-			  
-			  
-			  createDataURL = function (scope) {
-
-			    $injector = angular.injector(['ng']);
-				q = $injector.get('$q');
-				timeout = $injector.get('$timeout');
-
-				var deferred = q.defer();
-				var reader = new FileReader();
-				reader.onload = function (e) {
-				
-					scope.$apply(function() {
-					  scope.filepreview = e.target.result;
-					});
-				
-					deferred.resolve(e.target.result)
-				}
-				reader.onerror = function (e) {
-					deferred.reject()
-				}
-				reader.readAsDataURL(scope.fileinput);
-
-				return deferred.promise;
-			}
-			
-			sucessCallback = function () {
-			  timeout(function () {
-			    recognize_image();
-			  }, 300);
-			}
-			
-			errorCallback = function () {
-			  //no error handling as yet
-			}
-			  
-			 
-		</script>
-
+		
+		
 		<div class="header text-center">
 		    <div class="header-logo">
 			  <img src="img/logo.png" />
@@ -295,7 +30,6 @@
 		<div id="main">
 		 <div class="container text-center">
 		 
-		
 			<div class="row">
 			
 			<div class="col-md-6 video-container" id="video-container">
@@ -306,16 +40,37 @@
 				<div ng-app="fileUpload" class="img-container" id="img-container">
 				  <div class="row" ng-controller="upload">
 					<div class="col-md-12">
-						<img ng-src="{{filepreview}}" class="img-responsive" id="pic" ng-show="filepreview" onclick="recognize_image()"/>
-					</div>
-					<div class="col-md-12">
-						<input class="btn btn-primary" type="file" fileinput="file" filepreview="filepreview"/>
+					    <p class="small">Video capturing not supported. Use this button instead</p>
+						<div id="transcription-original">
+							<div id="text-header-original">
+							  Original
+							</div>
+							<div id="text-original"">
+							<img ng-src="{{filepreview}}" class="img-responsive" id="orig" ng-show="filepreview" onclick="recognize_image('orig')" onload="threshold('threshold-canvas')" />
+							<!--<img id="orig" src="img/message.png" onclick="recognize_image()" />-->
+							<!--<canvas id="threshold-canvas" onclick="recognize_canvas('threshold-canvas')" style="display: none;"></canvas>-->
+							<!--<img id="threshold-image" onclick="recognize_newimage('threshold-image')" src="" />-->
+							<!--<button onclick="threshold('threshold-canvas')">threshold the image</button>-->
+						</div>
 					</div>
 				  </div>
+				  	<div class="col-md-12">
+						<input class="btn btn-primary" type="file" fileinput="file" filepreview="filepreview"/>
+					</div>
+				</div>
+				
+                   <div id="transcription-canvas">
+                        <div id="text-header-canvas">
+						  Filtered canvas
+						</div>
+						<div id="text-canvas"">
+							<canvas id="threshold-canvas" onclick="recognize_canvas('threshold-canvas')" style="display: none;"></canvas>
+						</div>
+					</div>
 				</div>
 				</div>
+
 				<div class="col-md-6">
-				    
 					<div id="transcription">
                         <div id="text-header">
 						  Capture results
@@ -324,16 +79,14 @@
 							
 						</div>
 						<div id="controls" class="controls">
-							<input type="radio" name="textColor" id="whiteText" value="white" onchange="recognize_image()">
+							<input type="radio" name="textColor" id="whiteText" value="white" onchange="recognize_snapshot()">
 							<label for="whiteText"><b>White Text</b> on Dark Background</label><br>
-							<input type="radio" name="textColor" id="blackText" value="black" checked onchange="recognize_image()">
+							<input type="radio" name="textColor" id="blackText" value="black" checked onchange="recognize_snapshot()">
 							<label for="blackText"><b>Black Text</b> on Light Background</label>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			
 		</div>
 	</body>	
 </html>

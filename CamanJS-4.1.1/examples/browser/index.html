@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+	<title>CamanJS examples</title>
+	
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+   <script type="text/javascript" src="../../dist/caman.full.js"></script>
+
+  <script type="text/javascript">
+  Caman.DEBUG = ('console' in window);
+  //Caman("#test-image", function() {
+    //this.sunrise();
+    //this.render();
+  //});
+
+   Caman("#test-canvas", "../images/mob-test.jpg", function () {
+     this.vintage();
+     this.render();
+   });
+   
+  Caman('#my-image', function () {
+    this.brightness(10);
+    this.contrast(30);
+    this.sepia(60);
+    this.saturation(-30);
+    this.render();
+  });
+   
+  </script>
+  
+  <style>
+    img, canvas {
+	 width:100%;
+	 height:400px !important;
+	}
+  
+  </style>
+  
+</head>
+<body>
+<div class="container">
+  <h1>CamanJS Examples</h1>
+  <p>Taken from <a href="http://camanjs.com/">CamanJS</a></p>
+  
+	  <table class="table">
+	   <tHead class="thead-default">
+		   <tr>
+				<th>Original</th>
+				<th>Filtered :: vintage</th>
+				<th>Filtered :: Html Attribute</th>
+				<th>Filtered :: Javascript</th>
+			</tr>
+	   </tHead>
+	   
+	   <tBody>
+	  
+		<tr>
+		  <td>
+			<img id="test-image" src="../images/mob-test.jpg" />
+		  </td>
+		  <td>	  
+			<canvas id="test-canvas"></canvas>
+		  </td>
+		  <td>
+			<img id="test-image" src="../images/mob-test.jpg" data-caman="brightness(10) contrast(30) sepia(60) saturation(-30)" />
+		  </td>
+		  <td>
+			<img id="my-image" src="../images/mob-test.jpg" />
+		  </td>
+		</tr>
+	  </table>
+  </div>
+</body>
+</html>
