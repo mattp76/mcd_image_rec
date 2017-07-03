@@ -10,15 +10,26 @@ function recognize_snapshot(){
 	})
 }
 
-function recognize_image(){
+function recognize_image(id){
 	document.getElementById('text').innerText = "Recognizing..."
-	OCRAD(document.getElementById("pic"), {
+	OCRAD(document.getElementById(id), {
 		invert: false // black text white background
 	}, function(text){
 		document.getElementById('transcription').className = "done"
 		document.getElementById('text').innerText = text;
 	})
 }
+
+function recognize_canvas(id){
+	document.getElementById('text').innerText = "Recognizing..."
+	OCRAD(document.getElementById(id), {
+		invert: false // black text white background
+	}, function(text){
+		document.getElementById('transcription').className = "done"
+		document.getElementById('text').innerText = text;
+	})
+}
+
 
 function acquiredVideo(stream){
 	var video = document.getElementById('video')
@@ -36,7 +47,7 @@ window.onload = function(){
 	var containerEl = angular.element( document.querySelector( '#image-container' ) );
 	var imageResultEl = angular.element( document.querySelectorAll( '.image-results' ) );
 	
-	if(navigator.getUserMedia) {
+	if(!navigator.getUserMedia) {
 	  navigator.getUserMedia({ video: true }, acquiredVideo, function(){})
 	   console.log('GetUserMedia is supported', navigator.getUserMedia);
 
@@ -124,7 +135,7 @@ angular.module('fileUpload', [])
 
 sucessCallback = function () {
   timeout(function () {
-	recognize_image();
+	recognize_image('pic');
   }, 300);
 }
 

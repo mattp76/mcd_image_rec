@@ -41,14 +41,14 @@
 					</div>
 					<div class="image-results hidden">
 						<div class="col-md-12">
-							<div id="text-header-original">
+							<div id="text-header">
 							  Original
 							</div>
-							<img ng-src="{{filepreview}}" class="img-responsive" id="pic" ng-show="filepreview" onclick="recognize_image()"/>
-							<div id="text-header-canvas">
+							<img ng-src="{{filepreview}}" class="img-responsive" id="pic" ng-show="filepreview" onclick="recognize_image('pic')"/>
+							<div id="text-header">
 							  Filtered Canvas
 							</div>
-							<canvas id="filter-canvas" class="img-responsive"></canvas>
+							<canvas id="filter-canvas" class="img-responsive" onclick="recognize_canvas('filter-canvas')"></canvas>
 						</div>
 					</div>
 				  </div>
