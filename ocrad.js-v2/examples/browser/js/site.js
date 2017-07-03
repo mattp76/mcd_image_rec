@@ -112,9 +112,17 @@ angular.module('fileUpload', [])
 		  
 
 			//Image Filtering
-			 Caman("#filter-canvas", scope.filepreview, function () {
-			   this.sunrise();
-			   this.render();
+			// Caman("#filter-canvas", scope.filepreview, function () {
+			//   this.sunrise();
+			//   this.render();
+			// });
+			
+			Caman("#filter-canvas", scope.filepreview, function () {
+				this.brightness(25);
+				this.contrast(0);
+				this.sepia(70);
+				this.saturation(-20);
+				this.render();
 			});
 	
 			imageResultEl.removeClass('hidden');
