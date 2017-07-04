@@ -21,10 +21,10 @@
   <script type="text/javascript">
   Caman.DEBUG = ('console' in window);
 
-  //Caman('#my-image', function () {
+  //Caman('#my-image', 'img/mob-test.jpg', function () {
     //this.brightness(10);
     //this.contrast(30);
-    //this.sepia(60);
+    //his.sepia(60);
     //this.saturation(-30);
     //this.render();
   //});
@@ -64,8 +64,7 @@
 							<div id="text-header">
 							  Filtered Canvas
 							</div>
-							<img id="my-image" class="img-responsive" onclick="recognize_image('my-image')" data-caman-hidpi-disabled="true" />
-							<!--<canvas id="filter-canvas" class="img-responsive"></canvas>-->
+							<canvas id="my-canvas" class="img-responsive" onclick="recognize_image('my-canvas')" data-caman-hidpi-disabled="true"></canvas>
 						</div>
 					</div>
 				  </div>

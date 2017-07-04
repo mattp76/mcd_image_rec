@@ -141,12 +141,12 @@ sucessCallback = function () {
 filterImage = function (preview) {
   timeout(function () {
 	  
-   var img = document.getElementById("my-image");
-   img.src = preview;
+   // var img = document.getElementById("my-image");
+    //img.src = preview;
    //RotateImageRight('my-image');
    //alert(0);
 
-	Caman('#my-image', function () {
+	Caman('#my-canvas', preview, function () {
 	 this.brightness(10);
 	 this.contrast(15);
 	 //this.sepia(30);
@@ -157,11 +157,11 @@ filterImage = function (preview) {
   }, 1000);
 }
 
-//RotateImageRight = function (id) {
-	//var img;
-	//img = document.getElementById(id);
-	//img.style.transform = "rotate(90deg)";
-//}
+RotateImageRight = function (id) {
+	var img;
+	img = document.getElementById(id);
+	img.style.transform = "rotate(90deg)";
+}
 
 errorCallback = function () {
   //no error handling as yet
