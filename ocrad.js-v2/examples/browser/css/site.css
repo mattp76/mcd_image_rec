@@ -44,6 +44,9 @@ h1 {
 .img-responsive {
  height:350px !important;
  margin-bottom:30px;
+  border: 1px solid #ddd;
+  cursor:pointer;
+  max-width:320px;
 	
 }
 
@@ -51,10 +54,6 @@ h1 {
  margin-bottom: 30px;
 }
 
-.img-responsive {
-  border: 1px solid #ddd;
-  cursor:pointer;
-}
 
 #transcription #text-header {
  background-color:#dff0d8;

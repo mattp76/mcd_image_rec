@@ -118,8 +118,10 @@ window.onload = function(){
 	var imageResultEl = angular.element( document.querySelectorAll( '.image-results' ) );
     var img = document.getElementById('orig');
 
+    alert(0);
 	
-	if(!navigator.getUserMedia) {
+	
+	if(navigator.getUserMedia) {
 	  navigator.getUserMedia({ video: true }, acquiredVideo, function(){})
 	   console.log('GetUserMedia is supported', navigator.getUserMedia);
 

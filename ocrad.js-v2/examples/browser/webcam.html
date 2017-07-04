@@ -7,7 +7,7 @@
 	
 	
 	    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="css/site.css">
+		<link rel="stylesheet" type="text/css" href="css/site.css?v=1">
 
 	</head>
 	<body>
@@ -16,7 +16,23 @@
 		<script type="text/javascript" src="js/angular.min.js"></script>
 		<script type="text/javascript" src="js/caman.full.js"></script>
 		<script type="text/javascript" src="js/site.js"></script>
+		
 
+  <script type="text/javascript">
+  Caman.DEBUG = ('console' in window);
+
+  //Caman('#my-image', function () {
+    //this.brightness(10);
+    //this.contrast(30);
+    //this.sepia(60);
+    //this.saturation(-30);
+    //this.render();
+  //});
+
+   
+  </script>
+		
+		
 
 		<div class="header text-center">
 		    <div class="header-logo">
@@ -48,7 +64,8 @@
 							<div id="text-header">
 							  Filtered Canvas
 							</div>
-							<canvas id="filter-canvas" class="img-responsive" onclick="recognize_canvas('filter-canvas')"></canvas>
+							<img id="my-image" class="img-responsive" onclick="recognize_image('my-image')" data-caman-hidpi-disabled="true" />
+							<!--<canvas id="filter-canvas" class="img-responsive"></canvas>-->
 						</div>
 					</div>
 				  </div>

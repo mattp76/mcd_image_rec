@@ -2,8 +2,8 @@ function recognize_snapshot(){
 	document.getElementById('text').innerText = "Recognizing..."
 	document.getElementById('transcription').className = "recognizing"
 	OCRAD(document.getElementById("video"), {
-		invert: document.getElementById('whiteText').checked // set this for white on black text
-		//invert: true // black text white background
+		//invert: document.getElementById('whiteText').checked // set this for white on black text
+		invert: true // black text white background
 	}, function(text){
 		document.getElementById('transcription').className = "done"
 		document.getElementById('text').innerText = text || "(empty)";
@@ -32,11 +32,14 @@ function recognize_canvas(id){
 
 
 function acquiredVideo(stream){
+	
 	var video = document.getElementById('video')
 	if ('mozSrcObject' in video) { video.mozSrcObject = stream;
 	} else if (window.webkitURL) { video.src = window.webkitURL.createObjectURL(stream);
 	} else { video.src = stream; }
-	video.play();
+    video.play();
+  
+	
 }
 window.onload = function(){
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -46,8 +49,10 @@ window.onload = function(){
 	var videoEl = angular.element( document.querySelector( '#video-container' ) );
 	var containerEl = angular.element( document.querySelector( '#image-container' ) );
 	var imageResultEl = angular.element( document.querySelectorAll( '.image-results' ) );
+	var constraints = true;
 	
-	if(!navigator.getUserMedia) {
+	if(navigator.getUserMedia) {
+		
 	  navigator.getUserMedia({ video: true }, acquiredVideo, function(){})
 	   console.log('GetUserMedia is supported', navigator.getUserMedia);
 
@@ -109,23 +114,8 @@ angular.module('fileUpload', [])
 		
 		scope.$apply(function() {
 		  scope.filepreview = e.target.result;
-		  
-
-			//Image Filtering
-			// Caman("#filter-canvas", scope.filepreview, function () {
-			//   this.sunrise();
-			//   this.render();
-			// });
-			
-			Caman("#filter-canvas", scope.filepreview, function () {
-				this.brightness(25);
-				this.contrast(0);
-				this.sepia(70);
-				this.saturation(-20);
-				this.render();
-			});
-	
-			imageResultEl.removeClass('hidden');
+	      imageResultEl.removeClass('hidden');
+		  filterImage(scope.filepreview);
 		  
 		});
 	
@@ -143,9 +133,35 @@ angular.module('fileUpload', [])
 
 sucessCallback = function () {
   timeout(function () {
-	recognize_image('pic');
+	//recognize_image('pic');
   }, 300);
 }
+
+
+filterImage = function (preview) {
+  timeout(function () {
+	  
+   var img = document.getElementById("my-image");
+   img.src = preview;
+   RotateImageRight('my-image');
+   alert(0);
+
+	Caman('#my-image', function () {
+	 this.brightness(10);
+	 this.contrast(15);
+	 //this.sepia(30);
+	 //this.saturation(-30);
+	 this.render();
+	});
+	
+  }, 1000);
+}
+
+//RotateImageRight = function (id) {
+	//var img;
+	//img = document.getElementById(id);
+	//img.style.transform = "rotate(90deg)";
+//}
 
 errorCallback = function () {
   //no error handling as yet
