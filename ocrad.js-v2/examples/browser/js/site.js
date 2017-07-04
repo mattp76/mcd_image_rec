@@ -143,8 +143,8 @@ filterImage = function (preview) {
 	  
    var img = document.getElementById("my-image");
    img.src = preview;
-   RotateImageRight('my-image');
-   alert(0);
+   //RotateImageRight('my-image');
+   //alert(0);
 
 	Caman('#my-image', function () {
 	 this.brightness(10);
